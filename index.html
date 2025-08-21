@@ -2,36 +2,44 @@
 <html lang="mn">
 <head>
   <meta charset="UTF-8">
-  <title>Холбоо барих</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Us</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
+  <section class="contact-section">
+    <div class="contact-container">
 
-    <!-- Бүртгэл -->
-    <section class="form-box">
-      <h2>Бүртгэл</h2>
-      <form>
-        <input type="text" placeholder="Овог нэр" required>
-        <input type="email" placeholder="Имэйл" required>
-        <input type="tel" placeholder="Утас" required>
-        <input type="password" placeholder="Нууц үг" required>
-        <input type="password" placeholder="Нууц үг давтах" required>
-        <button type="submit">Бүртгүүлэх</button>
-      </form>
-    </section>
+      <!-- Зүүн талын мэдээлэл -->
+      <div class="contact-info">
+        <h2>Contact Us</h2>
+        <p>Бидэнтэй холбогдохыг хүсвэл доорх мэдээллийг ашиглана уу.</p>
+        <ul>
+          <li>📍 Улаанбаатар, Монгол</li>
+          <li>📞 +976 9934-1150</li>
+          <li>✉️ Zonyd08@gmail.com</li>
+        </ul>
+      </div>
 
-    <!-- Санал хүсэлт -->
-    <section class="form-box">
-      <h2>Санал хүсэлт</h2>
-      <form>
-        <input type="text" placeholder="Нэр" required>
-        <input type="email" placeholder="Имэйл" required>
-        <textarea placeholder="Таны санал хүсэлт..." required></textarea>
-        <button type="submit">Илгээх</button>
-      </form>
-    </section>
+      <!-- Баруун талын форм -->
+      <div class="contact-form">
+        <h2>Send a Message</h2>
+        <form>
+          <div class="form-group">
+            <input type="text" placeholder="Нэр" required>
+            <input type="email" placeholder="Имэйл" required>
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Сэдэв" required>
+          </div>
+          <div class="form-group">
+            <textarea placeholder="Таны мессеж..." required></textarea>
+          </div>
+          <button type="submit">Илгээх</button>
+        </form>
+      </div>
 
-  </div>
+    </div>
+  </section>
 </body>
 </html>
