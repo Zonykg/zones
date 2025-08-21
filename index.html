@@ -1,45 +1,52 @@
 <!DOCTYPE html>
-<html lang="mn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <section class="contact-section">
+
+  <section class="contact">
     <div class="contact-container">
 
       
       <div class="contact-info">
         <h2>Contact Us</h2>
-        <p>Бидэнтэй холбогдохыг хүсвэл доорх мэдээллийг ашиглана уу.</p>
-        <ul>
-          <li>📍 Улаанбаатар, Монгол</li>
-          <li>📞 +976 9934-1150</li>
-          <li>✉️ Zonyd08@gmail.com</li>
-        </ul>
-      </div>
+        <p>500 Terry Francine Street<br>San Francisco, CA 94158</p>
+        <p>info@mysite.com</p>
+        <p>123-456-7890</p>
+        <small>© 2035 by Newel Residential Remodeling. Powered and secured by Wix</small>
 
+        <div class="socials">
+          <a href="#">🌐</a>
+          <a href="#">📷</a>
+          <a href="#">👍</a>
+        </div>
       
       <div class="contact-form">
-        <h2>Send a Message</h2>
         <form>
-          <div class="form-group">
-            <input type="text" placeholder="Нэр" required>
-            <input type="email" placeholder="Имэйл" required>
+          <div class="form-row">
+            <input type="text" placeholder="First name" required>
+            <input type="text" placeholder="Last name" required>
           </div>
-          <div class="form-group">
-            <input type="text" placeholder="Сэдэв" required>
+          <div class="form-row">
+            <input type="email" placeholder="Email" required>
+            <input type="text" placeholder="Phone">
           </div>
-          <div class="form-group">
-            <textarea placeholder="Таны мессеж..." required></textarea>
+          <div class="form-row">
+            <input type="text" placeholder="Address">
           </div>
-          <button type="submit">Илгээх</button>
+          <div class="form-row">
+            <textarea placeholder="Message" required></textarea>
+          </div>
+          <button type="submit">Submit</button>
         </form>
       </div>
 
     </div>
   </section>
+
 </body>
 </html>
