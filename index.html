@@ -1,54 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
- </head>
-  <body>
-    <header>
-    <div class="hi">LUGX</div>
-      <nav>
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Our Shop</a></li>
-          <li><a href="#">Product details</a></li>
-          <li><a href="#">Contact us</a></li>
-          <li><a href="#">Sign in</a></li>
-        </ul>
-      </nav>
-    </div>
-</header>
-<section class="texts">
-    <div class="texts2">
-            <p>WELCOME TO LUGX</p>
-            <h1>BEST GAMING SITE EVER!</h1>
-    </div>
-    <div class="h3">LUGX</div>
-    <input type="search" name="Search" id="search" placeholder="Type Something">
-</section>
-let display = document.getElementById("display");
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <title>Холбоо барих</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
 
-  function appendValue(val) {
-    display.value += val;
-  }
+    <!-- Бүртгэл -->
+    <section class="form-box">
+      <h2>Бүртгэл</h2>
+      <form>
+        <input type="text" placeholder="Овог нэр" required>
+        <input type="email" placeholder="Имэйл" required>
+        <input type="tel" placeholder="Утас" required>
+        <input type="password" placeholder="Нууц үг" required>
+        <input type="password" placeholder="Нууц үг давтах" required>
+        <button type="submit">Бүртгүүлэх</button>
+      </form>
+    </section>
 
-  function clearDisplay() {
-    display.value = "";
-  }
+    <!-- Санал хүсэлт -->
+    <section class="form-box">
+      <h2>Санал хүсэлт</h2>
+      <form>
+        <input type="text" placeholder="Нэр" required>
+        <input type="email" placeholder="Имэйл" required>
+        <textarea placeholder="Таны санал хүсэлт..." required></textarea>
+        <button type="submit">Илгээх</button>
+      </form>
+    </section>
 
-  function delChar() {
-    display.value = display.value.slice(0, -1);
-  }
-
-  function calculate() {
-    try {
-      display.value = eval(display.value);
-    } catch {
-      display.value = "Error";
-      }
-    }
-
-  </body>
+  </div>
+</body>
 </html>
