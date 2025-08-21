@@ -1,4 +1,4 @@
-body {
+muu body {
   height: 100px;
   background-color: rgb(6, 86, 236);
   color: rgb(255, 255, 255);
@@ -30,5 +30,105 @@ nav ul {
 .texts2 p {
   margin-bottom: 15px;
 }
-.texts2 h1 {
-}
+.texts2  font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .contact-container {
+      max-width: 900px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 40px;
+    }
+
+    .contact-info {
+      flex: 1;
+    }
+
+    .contact-info h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .contact-info p {
+      margin: 8px 0;
+      color: #555;
+    }
+
+    .contact-info i {
+      margin-right: 10px;
+      color: #0078ff;
+    }
+
+    .contact-form {
+      flex: 1;
+    }
+
+    .contact-form h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .contact-form textarea {
+      resize: none;
+      height: 120px;
+    }
+
+    .contact-form button {
+      background: #0078ff;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 15px;
+    }
+
+    .contact-form button:hover {
+      background: #005fcc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contact-container">
+    <!-- Left side: Contact info -->
+    <div class="contact-info">
+      <h2>Contact Us</h2>
+      <p><i>📍</i> Улаанбаатар, Монгол</p>
+      <p><i>📞</i> +976 9934-1150</p>
+      <p><i>✉️</i> Zonyd08@gmail.com</p>
+    </div>
+
+    <!-- Right side: Contact form -->
+    <div class="contact-form">
+      <h2>Send us a message</h2>
+      <form>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Your Message..." required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
+
