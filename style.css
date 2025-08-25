@@ -101,3 +101,6 @@ button:hover {
     flex-direction: column;
   }
 }
+
+<div class="bg-red-500 sm:bg-green-500 md:bg-blue-500 lg:bg-yellow-500 xl:bg-purple-500 p-10 text-white">
+</div>
