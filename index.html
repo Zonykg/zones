@@ -1,8 +1,41 @@
-head>
-<body class="bg-blue-100 flex items-center justify-center min-h-screen">
+"use client"; 
 
-  <div class="bg-white p-6 rounded-xl shadow-md text-center">
-    <h2 class="text-xl font-bold mb-2">Улаанбаатар</h2>
-    <p class="text-gray-500 mb-4">Өнөөдөр</p>
-    <div class="text-4xl font-bold mb-2">24°C</div>
-    <p class="text-gray-600">
+import { useState } from "react";
+
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Email:", email, "Password:", password);
+    
+  };
+
+  return (
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", width: "300px", gap: "10px" }}>
+        <h2>Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          style={{ padding: "10px" }}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          style={{ padding: "10px" }}
+        />
+        <button type="submit" style={{ padding: "10px", background: "black", color: "white" }}>
+          Sign In
+        </button>
+      </form>
+    </div>
+  );
+}
