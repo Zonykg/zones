@@ -1,75 +1,372 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
-
-export default function SignUpPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password !== confirm) {
-      alert("Passwords do not match!");
-      return;
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ADMON — Premium Shop (SPA Nav)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0d12; --card:#121722; --soft:#0f1420; --muted:#9aa4b2; --text:#e8edf3;
+      --brand:#6cf0c2; --brand-2:#7aa7ff; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.25);
     }
-    console.log("Sign Up →", { email, password });
-  };
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;background:radial-gradient(1200px 600px at 80% -10%,rgba(122,167,255,.18),rgba(0,0,0,0) 60%),radial-gradient(900px 500px at -10% 20%,rgba(108,240,194,.18),rgba(0,0,0,0) 60%),var(--bg);color:var(--text)}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    button{font:inherit}
+    .container{width:min(1200px, 92%);margin-inline:auto}
 
-  return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", width: "300px", gap: "10px" }}
-      >
-        <h2>Sign Up</h2>
+    /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(11,13,18,.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-2))}
+    .brand h1{font-size:18px;margin:0}
+    .navlinks{display:flex;gap:6px;flex-wrap:wrap}
+    .navlinks a{padding:8px 12px;border-radius:10px;color:var(--muted)}
+    .navlinks a.active,.navlinks a:hover{background:rgba(255,255,255,.06);color:var(--text)}
+    .actions{display:flex;gap:8px;align-items:center}
+    .search{display:flex;align-items:center;gap:8px;background:var(--soft);border:1px solid rgba(255,255,255,.06);padding:8px 12px;border-radius:12px;min-width:220px}
+    .search input{all:unset;flex:1;color:var(--text)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));color:var(--text);cursor:pointer}
+    .btn.brand{background:linear-gradient(135deg,rgba(108,240,194,.20),rgba(122,167,255,.18));border-color:transparent}
+    .burger{display:none}
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{ padding: "10px" }}
-        />
+    /
+    main{padding:20px 0}
+    .page{display:none;opacity:0;transform:translateY(6px);transition:.25s ease}
+    .page.active{display:block;opacity:1;transform:none}
 
-        <div style={{ display: "flex", gap: "5px" }}>
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ flex: 1, padding: "10px" }}
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            style={{ padding: "10px" }}
-          >
-            {showPassword ? "Hide" : "Show"}
-          </button>
+   
+    .hero{position:relative;margin:10px 0 20px;border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);overflow:hidden;background:linear-gradient(135deg,rgba(122,167,255,.10),rgba(108,240,194,.10));}
+    .hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:center;padding:24px}
+    .hero h2{font-size:28px;margin:0 0 8px}
+    .hero p{color:var(--muted);margin:0 0 14px}
+
+    
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:14px 0}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.10);color:var(--muted);cursor:pointer}
+    .chip.active,.chip:hover{background:rgba(255,255,255,.06);color:var(--text)}
+    select{background:var(--soft);border:1px solid rgba(255,255,255,.10);color:var(--text);padding:8px 10px;border-radius:10px}
+
+    
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+    .thumb{aspect-ratio:1/1;position:relative}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .badge-corner{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);padding:5px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.10);font-size:12px}
+    .content{padding:12px;display:flex;flex-direction:column;gap:8px}
+    .title{font-weight:600}
+    .price{display:flex;align-items:baseline;gap:8px}
+    .now{font-size:16px;font-weight:700}
+    .was{font-size:12px;color:var(--muted);text-decoration:line-through}
+    .meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px}
+
+    
+    .drawer{position:fixed;inset:0;pointer-events:none}
+    .drawer.open{pointer-events:auto}
+    .drawer .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:.2s}
+    .drawer.open .backdrop{opacity:1}
+    .drawer .panel{position:absolute;right:0;top:0;height:100%;width:min(420px, 100%);background:var(--card);border-left:1px solid rgba(255,255,255,.06);transform:translateX(100%);transition:.3s;border-top-left-radius:16px;border-bottom-left-radius:16px;display:flex;flex-direction:column}
+    .drawer.open .panel{transform:translateX(0)}
+    .panel header{position:sticky;top:0;background:var(--card);display:flex;align-items:center;justify-content:space-between;padding:14px;border-bottom:1px solid rgba(255,255,255,.06)}
+    .cart-list{padding:12px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+    .cart-item{display:grid;grid-template-columns:60px 1fr auto;gap:10px;align-items:center;background:var(--soft);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:8px}
+    .cart-item img{width:60px;height:60px;object-fit:cover;border-radius:8px}
+    .qty{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.10);border-radius:10px}
+    .qty button{all:unset;padding:6px 10px;cursor:pointer}
+    .panel footer{margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,.06);display:grid;gap:8px}
+
+    
+    .modal{position:fixed;inset:0;display:none;place-items:center;padding:18px}
+    .modal.open{display:grid}
+    .modal .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6)}
+    .modal .window{position:relative;z-index:1;width:min(900px, 100%);background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
+    .win-media{background:var(--soft)}
+    .win-body{padding:16px;display:grid;gap:10px}
+
+    
+    footer{margin:30px 0;color:var(--muted)}
+    .footgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:18px;border-radius:16px}
+
+    
+    @media (max-width: 1000px){
+      .grid{grid-template-columns:repeat(3,1fr)}
+      .hero-inner{grid-template-columns:1fr}
+    }
+    @media (max-width: 720px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .nav{flex-wrap:wrap}
+      .search{min-width:unset;flex:1}
+      .modal .window{grid-template-columns:1fr}
+      .burger{display:inline-flex}
+      .navlinks{display:none;width:100%}
+      .navlinks.open{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+      .footgrid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 480px){
+      .grid{grid-template-columns:1fr}
+      .footgrid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <div class="container nav">
+      <div class="brand"><div class="logo"></div><h1>ADMON Shop</h1></div>
+      <button id="burger" class="btn burger">☰ Цэс</button>
+      <nav id="navlinks" class="navlinks">
+        <a data-page="home" class="active">Нүүр</a>
+        <a data-page="shop">Дэлгүүр</a>
+        <a data-page="about">Бидний тухай</a>
+        <a data-page="contact">Холбоо барих</a>
+      </nav>
+      <div class="actions">
+        <div class="search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          <input id="q" placeholder="Бараа хайх... (⌘/Ctrl + K)" />
         </div>
-
-        <input
-          type={showPassword ? "text" : "password"}
-          placeholder="Confirm Password"
-          value={confirm}
-          onChange={(e) => setConfirm(e.target.value)}
-          required
-          style={{ padding: "10px" }}
-        />
-
-        <button type="submit" style={{ padding: "10px", background: "black", color: "white" }}>
-          Sign Up
-        </button>
-
-        <p style={{ textAlign: "center" }}>
-          Already have an account? <Link href="/login">Login</Link>
-        </p>
-      </form>
+        <button id="openCart" class="btn">🛒 <span id="cartCount">0</span></button>
+      </div>
     </div>
-  );
-}
+  </header>
+
+  
+  <main class="container">
+    
+    <section id="home" class="page active">
+      <div class="hero">
+        <div class="hero-inner">
+          <div>
+            <h2>2025 Шинэ Коллекц — <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">Hot drop</span></h2>
+            <p>Орчин үеийн минимал дизайн, хурдан хүргэлт, аюулгүй төлбөр.</p>
+            <div style="display:flex;gap:10px">
+              <button class="btn brand" onclick="go('shop')">🛍️ Дэлгүүр</button>
+              <button class="btn" onclick="document.getElementById('q').focus()">🔎 Хайлт</button>
+            </div>
+          </div>
+          <img alt="Hero" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop" />
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="shop" class="page">
+      <div class="toolbar">
+        <div class="chips" id="chipRow"></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <label for="sort">Эрэмбэлэх:</label>
+          <select id="sort">
+            <option value="pop">Их зарагдсан</option>
+            <option value="new">Шинэ</option>
+            <option value="low">Үнэ: Багаас их</option>
+            <option value="high">Үнэ: Ихээс бага</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    
+    <section id="about" class="page">
+      <h3>Бидний тухай</h3>
+      <p>ADMON нь минимал, хурдан, найдвартай онлайн дэлгүүрийн туршлага санал болгодог.</p>
+    </section>
+    <section id="contact" class="page">
+      <h3>Холбоо барих</h3>
+      <p>Email: hello@admon.shop · Утас: 9999-0000</p>
+    </section>
+  </main>
+
+  
+  <footer class="container">
+    <div class="footgrid">
+      <div>
+        <h4>ADMON</h4>
+        <p>Орчин үеийн онлайн дэлгүүр.</p>
+        <div style="display:flex;gap:8px"><input placeholder="Имэйлээ оруул" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.10);background:var(--soft);color:var(--text)"><button class="btn brand">Бүртгүүлэх</button></div>
+      </div>
+      <div><h4>Тусламж</h4><p><a>Захиалга шалгах</a></p><p><a>Буцаалт</a></p></div>
+      <div><h4>Бодлого</h4><p><a>Нууцлал</a></p><p><a>Нөхцөл</a></p></div>
+      <div><h4>Сошиал</h4><p><a>Facebook</a></p><p><a>Instagram</a></p></div>
+    </div>
+    <p style="text-align:center;margin-top:12px">© 2025 ADMON — Бүх эрх хуулиар хамгаалагдсан.</p>
+  </footer>
+
+  
+  <div class="drawer" id="drawer">
+    <div class="backdrop" onclick="toggleCart(false)"></div>
+    <div class="panel">
+      <header>
+        <strong>🛒 Таны сагс</strong>
+        <button class="btn" onclick="clearCart()">🗑️ Цэвэрлэх</button>
+      </header>
+      <div class="cart-list" id="cartList"></div>
+      <footer>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span>Нийт:</span><strong id="total">0₮</strong>
+        </div>
+        <button class="btn brand" onclick="toggleCart(false); go('shop')">🛍️ Дэлгүүр рүү</button>
+      </footer>
+    </div>
+  </div>
+
+  
+  <div class="modal" id="modal">
+    <div class="backdrop" onclick="closeModal()"></div>
+    <div class="window">
+      <div class="win-media"><img id="mImg" alt="" /></div>
+      <div class="win-body">
+        <h3 id="mTitle"></h3>
+        <p id="mCat" style="color:var(--muted)"></p>
+        <div class="price"><span class="now" id="mPrice"></span> <span class="was" id="mWas"></span></div>
+        <p id="mDesc">Материал: хөвөн, полиэстэр. Дулаан, зөөлөн, өдөр тутмын хэрэглээнд тохиромжтой.</p>
+        <div style="display:flex;gap:8px">
+          <button class="btn" onclick="addToCart(currentModal)" id="mAdd">➕ Сагсанд</button>
+          <button class="btn brand" onclick="buyNow()">⚡ Одоо авах</button>
+        </div>
+        <button class="btn" onclick="closeModal()" style="justify-self:start">✖️ Хаах</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const el = s=>document.querySelector(s); const els = s=>Array.from(document.querySelectorAll(s));
+    const money = n=> new Intl.NumberFormat('mn-MN').format(n)+'₮';
+
+    
+    function go(page){
+      els('.navlinks a').forEach(a=>a.classList.toggle('active', a.dataset.page===page));
+      els('.page').forEach(p=>{
+        const active = p.id===page;
+        p.classList.toggle('active', active);
+      });
+      if(page==='shop') window.scrollTo({top:0,behavior:'smooth'})
+    }
+    el('#burger').onclick = ()=> el('#navlinks').classList.toggle('open');
+    els('.navlinks a').forEach(a=> a.onclick = ()=> go(a.dataset.page));
+
+    
+    window.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){ e.preventDefault(); el('#q').focus(); }});
+
+    
+    const categories=["Бүгд","Хувцас","Гутал","Дагалдах","Технологи","Ном","Гэр ахуй"];
+    const products=[
+      {id:1,title:"Oversized Hoodie",cat:"Хувцас",price:129900, was:169900, img:"https://anothercotton.com/cdn/shop/files/essentials-artiehoodie-cloudgrey-front.jpg?v=1714564549&width=1080", rating:4.7, sold:987, date: "2025-03-22"},
+      {id:2,title:"Minimal Sneakers",cat:"Гутал",price:199900, was:249900, img:"https://effortlessgent.com/wp-content/uploads/2020/01/minimal-white-sneakers-Kurt.jpg", rating:4.9, sold:1523, date:"2025-04-10"},
+      {id:3,title:"Smart Watch S3",cat:"Технологи",price:499900, was:0, img:"https://i02.appmifile.com/mi-com-product/fly-birds/xiaomi-watch-s3/M/b0aca8dcff970e574d51fba897a995a5.jpg", rating:4.6, sold:623, date:"2025-05-02"},
+      {id:4,title:"Leather Backpack",cat:"Дагалдах",price:279900, was:329900, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4GitTM4PbTbWj-NgEmlA2u8m7MGEYhzIzrg&s", rating:4.5, sold:341, date:"2025-01-28"},
+      {id:5,title:"Ergonomic Chair",cat:"Гэр ахуй",price:699900, was:799900, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs0Hxsy0jHaxMKY58wn09sW0GtPfGJjFhVTg&s", rating:4.8, sold:274, date:"2024-12-19"},
+      {id:6,title:"Noise-cancel Headphones",cat:"Технологи",price:599900, was:699900, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS_MknjHQ0zkvl3otT3MvZPE8TXgCmbdc46Q&s", rating:4.7, sold:1111, date:"2025-02-14"},
+      {id:7,title:"Classic Novel",cat:"Ном",price:29900, was:59000, img:"https://assets.teenvogue.com/photos/623a37c11bd0826268fa8b9c/16:9/w_2560%2Cc_limit/BookRoundup_Mar-22_2022_SOCIAL.jpg", rating:4.9, sold:841, date:"2025-06-01"},
+      {id:8,title:"Everyday Tote",cat:"Дагалдах",price:89900, was:0, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpIzSjTJkBlTCrKCW2wwDTfrubq_Bi0wNIpw&s", rating:4.4, sold:402, date:"2025-03-01"},
+      {id:9,title:"Running Shoes Pro",cat:"Гутал",price:259900, was:299900, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJWRghLjeOnhJLmkARkOtuc26Oh8qjmqQKEg&s", rating:4.8, sold:950, date:"2025-05-25"},
+      {id:10,title:"Linen Shirt",cat:"Хувцас",price:99900, was:119900, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThFuerjYUmbYG7Zm3P3yUI67HEz3dykeo6RA&s", rating:4.3, sold:208, date:"2025-04-30"},
+      {id:11,title:"Scented Candle",cat:"Гэр ахуй",price:19900, was:0, img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRQQUcG0JjTLV_EPLAaI1ShwtgagkuY8r0iQ&s", rating:4.6, sold:510, date:"2025-03-18"},
+      {id:12,title:"Wireless Keyboard",cat:"Технологи",price:149900, was:189900, img:"https://m.media-amazon.com/images/I/71aP663QsSL.jpg", rating:4.5, sold:690, date:"2025-05-12"}
+    ];
+
+    const state = { cat:'Бүгд', sort:'pop', q:'' };
+    const moneyFmt = new Intl.NumberFormat('mn-MN');
+    const format = n => moneyFmt.format(n)+'₮';
+
+    function renderChips(){
+      const row = el('#chipRow'); row.innerHTML='';
+      categories.forEach(c=>{
+        const b=document.createElement('button'); b.className='chip'+(state.cat===c?' active':''); b.textContent=c; b.onclick=()=>{state.cat=c; renderGrid();}; row.appendChild(b);
+      })
+    }
+    function getFiltered(){
+      let list = products.filter(p=> state.cat==='Бүгд' || p.cat===state.cat);
+      if(state.q){ const q=state.q.toLowerCase(); list = list.filter(p=> p.title.toLowerCase().includes(q)); }
+      switch(state.sort){
+        case 'new': list.sort((a,b)=> new Date(b.date)-new Date(a.date)); break;
+        case 'low': list.sort((a,b)=> a.price-b.price); break;
+        case 'high': list.sort((a,b)=> b.price-a.price); break;
+        default: list.sort((a,b)=> b.sold-a.sold);
+      }
+      return list;
+    }
+    function renderGrid(){
+      const grid = el('#grid'); grid.innerHTML='';
+      getFiltered().forEach(p=>{
+        const card = document.createElement('article'); card.className='card';
+        card.innerHTML = `
+          <div class="thumb">
+            <img src="${p.img}" alt="${p.title}">
+            ${p.was && p.was>p.price ? `<div class='badge-corner'>-${Math.round((1-p.price/p.was)*100)}%</div>`:''}
+          </div>
+          <div class="content">
+            <div class="title">${p.title}</div>
+            <div class="meta"><span>${p.cat}</span><span>★ ${p.rating}</span></div>
+            <div class="price"><span class="now">${format(p.price)}</span> ${p.was?`<span class="was">${format(p.was)}</span>`:''}</div>
+            <div style="display:flex;gap:8px">
+              <button class="btn brand" data-id="${p.id}">➕ Сагс</button>
+              <button class="btn" data-view="${p.id}">👁️ Дэлгэрэнгүй</button>
+            </div>
+          </div>`;
+        grid.appendChild(card);
+      });
+      els('[data-id]').forEach(b=> b.onclick = ()=> addToCart( products.find(x=> x.id==b.dataset.id) ));
+      els('[data-view]').forEach(b=> b.onclick = ()=> openModal( products.find(x=> x.id==b.dataset.view) ));
+    }
+
+    
+    el('#q').addEventListener('input', e=>{ state.q = e.target.value; renderGrid(); });
+    el('#sort').addEventListener('change', e=>{ state.sort = e.target.value; renderGrid(); });
+
+    
+    let cart = JSON.parse(localStorage.getItem('cart_v1')||'[]');
+    const saveCart = ()=> localStorage.setItem('cart_v1', JSON.stringify(cart));
+    const cartCount = ()=> cart.reduce((a,b)=> a+b.qty, 0);
+    const cartTotal = ()=> cart.reduce((a,b)=> a+b.qty*b.price, 0);
+    function updateCartUI(){
+      el('#cartCount').textContent = cartCount();
+      el('#total').textContent = format(cartTotal());
+      const list = el('#cartList'); list.innerHTML='';
+      if(cart.length===0){ list.innerHTML = `<p style="color:var(--muted);text-align:center">Сагс хоосон байна.</p>`; return; }
+      cart.forEach(item=>{
+        const row = document.createElement('div'); row.className='cart-item';
+        row.innerHTML = `
+          <img src="${item.img}" alt="${item.title}">
+          <div>
+            <div style="font-weight:600">${item.title}</div>
+            <div class="price"><span class="now">${format(item.price)}</span></div>
+            <div class="qty">
+              <button aria-label="-" data-minus="${item.id}">−</button>
+              <span style="padding:0 10px">${item.qty}</span>
+              <button aria-label="+" data-plus="${item.id}">+</button>
+            </div>
+          </div>
+          <button class="btn" data-remove="${item.id}">✖️</button>`;
+        list.appendChild(row);
+      });
+      els('[data-minus]').forEach(b=> b.onclick = ()=> changeQty(+b.dataset.minus,-1));
+      els('[data-plus]').forEach(b=> b.onclick = ()=> changeQty(+b.dataset.plus,1));
+      els('[data-remove]').forEach(b=> b.onclick = ()=> removeItem(+b.dataset.remove));
+    }
+    function addToCart(p){ const i = cart.findIndex(x=> x.id===p.id); if(i>-1){ cart[i].qty+=1; } else { cart.push({...p, qty:1}); } saveCart(); updateCartUI(); toggleCart(true); }
+    function removeItem(id){ cart = cart.filter(x=> x.id!==id); saveCart(); updateCartUI(); }
+    function changeQty(id,delta){ const i = cart.findIndex(x=> x.id===id); if(i>-1){ cart[i].qty=Math.max(1, cart[i].qty+delta); saveCart(); updateCartUI(); } }
+    function clearCart(){ cart = []; saveCart(); updateCartUI(); }
+    function toggleCart(open){ const d = el('#drawer'); d.classList.toggle('open', open!==undefined? open: !d.classList.contains('open')); }
+    el('#openCart').onclick = ()=> toggleCart();
+
+
+    let currentModal = null;
+    function openModal(p){ currentModal = p; el('#mImg').src = p.img; el('#mTitle').textContent = p.title; el('#mCat').textContent = p.cat + ' · ★ ' + p.rating; el('#mPrice').textContent = format(p.price); el('#mWas').textContent = p.was? format(p.was): ''; el('#modal').classList.add('open'); }
+    function closeModal(){ el('#modal').classList.remove('open'); }
+    function buyNow(){ addToCart(currentModal); closeModal(); }
+
+    
+    function boot(){ renderChips(); renderGrid(); updateCartUI(); }
+    boot();
+  </script>
+</body>
+</html>
