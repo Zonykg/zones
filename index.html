@@ -89,7 +89,6 @@ class _ChatScreenState extends State<ChatScreen> {
   String getTimeText(DateTime dt) {
     DateTime now = DateTime.now();
     int diff = now.difference(dt).inMinutes;
-
     if (diff < 1) return 'Дөнгөж сая';
     if (diff < 60) return '$diff минутын өмнө';
     if (diff < 1440) return '${diff ~/ 60} цагийн өмнө';
@@ -154,7 +153,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   bool mine = msg.isMine;
 
                   return Container(
-                    margin: const EdgeInsets.only(bottom: 10),
+                    margin: const EdgeInsets.only(bottom: 14),
                     child: Row(
                       mainAxisAlignment:
                           mine ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -170,16 +169,16 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                           const SizedBox(width: 8),
                         ],
-                        Column(
-                          crossAxisAlignment:
-                              mine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                        Stack(
+                          clipBehavior: Clip.none,
                           children: [
                             Container(
                               constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width * 0.7,
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.7,
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 10),
+                              padding: const EdgeInsets.fromLTRB(
+                                  14, 10, 48, 18), // ⬅️ time зай
                               decoration: BoxDecoration(
                                 color: mine
                                     ? const Color(0xFF2196F3)
@@ -195,21 +194,19 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 3),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  getTimeText(msg.sentTime),
-                                  style: text_xs_w600.copyWith(
-                                    fontSize: 10,
-                                    color: mine
-                                        ? Colors.white70
-                                        : ColorManager.textPrimary.value
-                                            .withValues(alpha: 0.6),
-                                  ),
+                            Positioned(
+                              bottom: 4,
+                              right: 12,
+                              child: Text(
+                                getTimeText(msg.sentTime),
+                                style: text_xs_w600.copyWith(
+                                  fontSize: 10,
+                                  color: mine
+                                      ? Colors.white70
+                                      : ColorManager.textPrimary.value
+                                          .withValues(alpha: 0.6),
                                 ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
@@ -219,8 +216,10 @@ class _ChatScreenState extends State<ChatScreen> {
                             width: 30,
                             height: 30,
                             child: CachedNetworkImage(
-                              imageUrl: "$baseUrl${_appController.user.value.avatar}",
-                              imageBuilder: (context, imageProvider) => Container(
+                              imageUrl:
+                                  "$baseUrl${_appController.user.value.avatar}",
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
@@ -248,7 +247,8 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
               decoration: BoxDecoration(
                 color: ColorManager.item_background.value,
                 borderRadius: const BorderRadius.only(
@@ -261,7 +261,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     width: 40,
                     height: 40,
                     child: CachedNetworkImage(
-                      imageUrl: "$baseUrl${_appController.user.value.avatar}",
+                      imageUrl:
+                          "$baseUrl${_appController.user.value.avatar}",
                       imageBuilder: (context, imageProvider) =>
                           CircleAvatar(backgroundImage: imageProvider),
                       errorWidget: (context, url, error) => CircleAvatar(
